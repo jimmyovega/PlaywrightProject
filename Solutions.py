@@ -2,6 +2,7 @@ import pytest
 import pytest_asyncio
 
 from playwright.async_api import async_playwright
+from datetime import datetime
 
 @pytest_asyncio.fixture
 async def chromium_browser():
@@ -20,6 +21,10 @@ async def chromium_browser():
         await browser.close()
 
 #Step functions
+
+def get_timestamp():
+    #Get the current timestamp
+    return datetime.now().strftime("%Y%m%d%H%M%S")
 
 async def navigate_to_page(page):
     #Navigate to the specific page
@@ -49,8 +54,9 @@ async def sign_in(page):
 
 async def select_language(page):
     #Select the language for the solution
-    await page.screenshot(path="screenshot.png", full_page=True)
     print("Selecting the language")
+    await page.wait_for_selector('div[id="editor"]')
+    await page.screenshot(path=f"screenshots/screenshot_{get_timestamp()}.png", full_page=True)
     await page.get_by_text("C++").click()
     await page.get_by_text("Python", exact=True).click()
     print("Language selected")
