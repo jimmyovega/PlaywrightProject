@@ -39,6 +39,13 @@ jobs:
       run: |
         xvfb-run -a pytest Solutions.py --html=report.html
 
+    - name: Upload screenshots
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: screenshots
+        path: screenshots/
+
     - name: Upload test report
       if: always()
       uses: actions/upload-artifact@v4

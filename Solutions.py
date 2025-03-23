@@ -55,8 +55,7 @@ async def sign_in(page):
 async def select_language(page):
     #Select the language for the solution
     print("Selecting the language")
-    await page.wait_for_selector('div[id="editor"]')
-    await page.screenshot(path=f"screenshots/screenshot_{get_timestamp()}.png", full_page=True)
+    await page.screenshot(path=f"screenshots/select_language_screenshot_{get_timestamp()}.png", full_page=True)
     await page.get_by_text("C++").click()
     await page.get_by_text("Python", exact=True).click()
     print("Language selected")
