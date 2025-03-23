@@ -7,7 +7,7 @@ from playwright.async_api import async_playwright
 async def chromium_browser():
     #Setup the browser and return the page object
     async with async_playwright() as playwright:
-        browser = await playwright.chromium.launch(headless=False)
+        browser = await playwright.chromium.launch(headless=True)
         context = await browser.new_context()
         page = await context.new_page()
 

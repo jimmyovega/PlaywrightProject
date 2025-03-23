@@ -37,7 +37,7 @@ jobs:
 
     - name: Run Playwright tests
       run: |
-        xvfb-run -a pytest Solutions.py --html=report.html
+        pytest Solutions.py --html=report.html
 
     - name: Upload test report
       if: always()
