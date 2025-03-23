@@ -49,6 +49,7 @@ async def sign_in(page):
 
 async def select_language(page):
     #Select the language for the solution
+    await page.screenshot(path="screenshot.png", full_page=True)
     print("Selecting the language")
     await page.get_by_text("C++").click()
     await page.get_by_text("Python", exact=True).click()
