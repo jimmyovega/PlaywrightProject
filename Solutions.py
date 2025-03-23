@@ -7,9 +7,10 @@ from playwright.async_api import async_playwright
 async def chromium_browser():
     #Setup the browser and return the page object
     async with async_playwright() as playwright:
-        browser = await playwright.chromium.launch(headless=True)
+        browser = await playwright.chromium.launch(headless=False)
         context = await browser.new_context()
         page = await context.new_page()
+        page.set_default_timeout(60000)
 
         #Yield page object to the test function
         yield page
@@ -22,16 +23,20 @@ async def chromium_browser():
 
 async def navigate_to_page(page):
     #Navigate to the specific page
+    print("Navigating to the LeetCode website")
     await page.goto("https://leetcode.com/problems/can-place-flowers/")
     await page.wait_for_load_state("networkidle")
+    print("Page loaded")
 
 async def sign_in(page):
     #Sign in to the LeetCode account
+    print("Signing in")
     await page.get_by_role("link", name="Sign in").click()
     await page.get_by_role("textbox", name="Username or E-mail").click()
     await page.get_by_role("textbox", name="Username or E-mail").fill("ikarilink")
     await page.get_by_role("textbox", name="Password").click()
     await page.get_by_role("textbox", name="Password").fill("kEJ!IHLWyijt3vjw7onC")
+    print("Filled in the credentials")
 
     await page.wait_for_timeout(7000)
     #iframe = page.frame_locator("iframe[title='Widget containing a Cloudflare security challenge']")
@@ -40,11 +45,14 @@ async def sign_in(page):
 
     # Click the Sign In button
     await page.get_by_role("button", name="Sign In").click()
+    print("Signed in")
 
 async def select_language(page):
     #Select the language for the solution
+    print("Selecting the language")
     await page.get_by_text("C++").click()
     await page.get_by_text("Python", exact=True).click()
+    print("Language selected")
 
 async def insert_code(page):
     #Insert the code into the code editor
@@ -61,6 +69,7 @@ count += 1
 if count >= n:
 """
     await page.locator(".view-lines > div:nth-child(8)").click()
+    print("Typing the code")
     await page.keyboard.type(code)
     await page.keyboard.type("return True")
     await page.keyboard.press("Enter")
@@ -70,8 +79,10 @@ if count >= n:
 
 async def run_code(page):
     #Run the code and return the output
+    print("Running the code")
     await page.get_by_role("button", name="Run").click()
     await page.wait_for_selector('div[data-e2e-locator="console-result"]')
+    print("Code executed")
 
 #Test functions
 
